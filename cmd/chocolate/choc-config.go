@@ -10,14 +10,9 @@ import (
 	db "github.com/austinpgraham/chocolate.server/internal/database"
 )
 
-type Config struct {
-	Flavor string `json:"flavor"`
-	Location string `json:"location"`
-}
-
 func main() {
 	// Create the config
-	cfg := Config{}
+	cfg := db.Config{}
 
 	// Define SQL flavor flag
 	flag.StringVar(&(cfg.Flavor), "flavor", "sqlite", "Flavor of SQL")
