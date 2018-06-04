@@ -24,6 +24,15 @@ func checkTable() {
 	}
 }
 
+func GetUser(username string) *User {
+	checkTable()
+	db, _ := db.GetConnection()
+	defer db.Close()
+	var user User
+	db.First(&user, "username = ?", username)
+	return &user
+}
+
 func CreateUser(user *User) {
 	checkTable()
 	db, _ := db.GetConnection()
