@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/mux"
 
 	db "github.com/austinpgraham/chocolate.server/internal/database"
+	rt "github.com/austinpgraham/chocolate.server/internal/app/router"
 )
 
 func checkDatabaseConnection() error {
@@ -37,5 +38,6 @@ func main() {
 	// Start the server
 	fmt.Println("Starting server on port", port, "...")
 	router := mux.NewRouter()
+	rt.DefineRoutes(router)
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
