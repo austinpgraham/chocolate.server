@@ -1,6 +1,8 @@
 package user
 
 import (
+	"fmt"
+
 	db "github.com/austinpgraham/chocolate.server/internal/database"
 )
 
@@ -24,18 +26,21 @@ func checkTable() {
 	}
 }
 
-func GetUser(username string) *User {
+func GetUser(att string, val string) *User {
 	checkTable()
 	db, _ := db.GetConnection()
 	defer db.Close()
 	var user User
-	db.First(&user, "username = ?", username)
+	if db.First(&user, fmt.Sprintf("%v = ?", att), val).Error != nil {
+		return nil
+	}
 	return &user
 }
 
-func CreateUser(user *User) {
+func CreateUser(user *User) error {
 	checkTable()
 	db, _ := db.GetConnection()
 	defer db.Close()
-	db.Create(user)
+	err := db.Create(user).Error
+	return err
 }
