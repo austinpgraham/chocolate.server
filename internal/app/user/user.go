@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 
-	"github.com/austinpgraham/chocolate.server/internal/user"
+	"github.com/austinpgraham/chocolate.server/pkg/user"
 	er "github.com/austinpgraham/chocolate.server/internal/app/error"
 )
 
