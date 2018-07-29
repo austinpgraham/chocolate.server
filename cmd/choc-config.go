@@ -34,7 +34,7 @@ func main() {
 	cfgJson, _ := json.Marshal(cfg)
 	err := ioutil.WriteFile(db.DB_CFG_LOC, cfgJson, 0644)
 	if err != nil {
-		fmt.Printf("Error writing config file.")
+		fmt.Println("Error writing config file.")
 	} else {
 		fmt.Println("Config file written to", db.DB_CFG_LOC, ".")
 	}

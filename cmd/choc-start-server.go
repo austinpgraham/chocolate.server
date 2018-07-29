@@ -13,10 +13,10 @@ import (
 
 func checkDatabaseConnection() error {
 	_db, err := db.GetConnection()
-	defer _db.Close()
-	if err == nil {
+	if err != nil {
 		return err
 	}
+	_db.Close()
 	return nil
 }
 
@@ -29,7 +29,6 @@ func main() {
 	flag.Parse()
 
 	// Check that we can connect to the database
-	fmt.Println("Checking database connection...")
 	err := checkDatabaseConnection()
 	if err != nil {
 		panic("Database connection could not be obtained.")

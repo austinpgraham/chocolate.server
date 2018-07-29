@@ -48,3 +48,29 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	} 
 	json.NewEncoder(w).Encode(_user)
 }
+
+func Login(w http.ResponseWriter, r *http.Request) {
+	var _user user.User
+	_ = json.NewDecoder(r.Body).Decode(&_user)
+	containedUser := user.GetUser(user.USERNAME, _user.Username)
+	if containedUser == nil {
+		err := er.Error{Code: "UserNotFound.", Message: "User not found."}
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(err)
+		return
+	}
+	if !checkHash(_user.Password, containedUser.Password) {
+		err := er.Error{Code: "PasswordIncorrect.", Message: "Password incorrect."}
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(err)
+		return
+	}
+	err := setCookie(containedUser, w) 
+	if err != nil {
+		logerr := er.Error{Code: "CannotLogin.", Message: "Error logging in."}
+		w.WriteHeader(http.StatusUnprocessableEntity)
+		json.NewEncoder(w).Encode(logerr)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
