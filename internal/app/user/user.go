@@ -12,6 +12,7 @@ import (
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	var newUser user.User
 	_ = json.NewDecoder(r.Body).Decode(&newUser)
+	newUser.Password, _ = hash(newUser.Password)
 	found := user.GetUser("username", newUser.Username)
 	if found != nil {
 		err := er.Error{Code: "UsernameExists", Message: "Username exists."}
