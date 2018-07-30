@@ -1,0 +1,9 @@
+FROM golang:latest
+RUN mkdir -p $GOPATH/src/github.com/austinpgraham/chocolate.server
+COPY ./ $GOPATH/src/github.com/austinpgraham/chocolate.server
+WORKDIR $GOPATH/src/github.com/austinpgraham/chocolate.server
+RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+RUN ./build-server.sh
+RUN ./bin/choc-config -f postgres -l "host=manchester.cs.ou.edu port=12543 user=chocolate dbname=chocolatedb password=052119952018 sslmode=disable"
+EXPOSE 8000
+CMD ["./bin/choc-up"]
