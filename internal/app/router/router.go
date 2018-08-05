@@ -8,6 +8,7 @@ import (
 
 func DefineRoutes(router *mux.Router) {
 	router.HandleFunc("/users", user.CreateUser).Methods("POST")
-	router.HandleFunc("/users/{username}", user.GetUser).Methods("GET")
-	router.HandleFunc("/users/login", user.Login).Methods("POST")
+	router.HandleFunc("/auth/login", user.Login).Methods("POST")
+	router.HandleFunc("/users/{username}", user.GetUser).Methods("POST")
+	router.HandleFunc("/auth/logout", user.Logout).Methods("POST")
 }
