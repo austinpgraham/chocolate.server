@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"github.com/gorilla/mux"
 
+	"github.com/rs/cors"
+
 	db "github.com/austinpgraham/chocolate.server/pkg/database"
 	rt "github.com/austinpgraham/chocolate.server/internal/app/router"
 )
@@ -38,5 +40,10 @@ func main() {
 	fmt.Println("Starting server on port", port, "...")
 	router := mux.NewRouter()
 	rt.DefineRoutes(router)
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowCredentials: true,
+	})
+	handler := c.Handler(router)
+	log.Fatal(http.ListenAndServe(":"+port, handler))
 }

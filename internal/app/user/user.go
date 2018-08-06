@@ -36,6 +36,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	puser.CreateUser(&newUser)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -55,6 +56,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(_user)
 }
 
@@ -81,6 +83,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(logerr)
 		return
 	}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -93,5 +96,6 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	puser.RemoveSession(containedUser.UserID)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
 }
