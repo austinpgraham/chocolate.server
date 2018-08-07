@@ -37,6 +37,7 @@ func GetUser(att string, val string) *User {
 	if db.First(&user, fmt.Sprintf("%v = ?", att), val).Error != nil {
 		return nil
 	}
+	user.Password = ""
 	return &user
 }
 
