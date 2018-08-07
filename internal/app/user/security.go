@@ -1,7 +1,6 @@
 package user
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/gorilla/securecookie"
@@ -41,22 +40,38 @@ func setCookie(_user *user.User, response http.ResponseWriter) error {
 	return err
 }
 
-func getCookie(request *http.Request) string {
+func getCookie(request *http.Request) *http.Cookie {
 	cookie, err := request.Cookie("session")
 	if err != nil {
-		return ""
+		return nil
 	}
-	return cookie.Value
+	return cookie
 }
 
 func ReqAuth(w http.ResponseWriter, r *http.Request) *user.User {
-	var _user user.User
-	_ = json.NewDecoder(r.Body).Decode(&_user)
-	containedUser := user.GetUser(user.USERNAME, _user.Username)
 	cookie := getCookie(r)
-	err := user.CheckSession(containedUser.UserID, cookie)
+	if cookie == nil {
+		return nil
+	}
+	value := make(map[string]string)
+	err := cookieHandler.Decode("session", cookie.Value, &value)
+	if err != nil {
+		return nil
+	}
+	containedUser := user.GetUser(user.USERNAME, value["name"])
+	err = user.CheckSession(containedUser.UserID, cookie.Value)
 	if err != nil {
 		return nil
 	}
 	return containedUser
+}
+
+func addCors(w http.ResponseWriter, r *http.Request) {
+	origin := r.Header.Get("Origin")
+	if origin != "" {
+		w.Header().Set("Access-Control-Allow_origin", origin)
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", 
+				   "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token Authorization")
+	}	
 }
