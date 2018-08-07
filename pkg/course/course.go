@@ -1,19 +1,23 @@
 package course
 
 import (
-	"github.com/austinpgraham/chocolate.server/pkg/user"
+	"fmt"
 
+	"github.com/austinpgraham/chocolate.server/pkg/user"
 	db "github.com/austinpgraham/chocolate.server/pkg/database"
 )
 
+const COURSE_ID = "id"
+const COURSE_NUMBER = "course_number"
 const COURSES_TABLE = "courses"
 
 type Course struct {
-	CourseID uint `json: "id" gorm: "AUTO_INCREMENT;unique_index"`
-	Instructor string `json: "instructor"`
-	CourseNumber string `json: "course_number" gorm: "unique_index"`
-	Description string `json: "description"`
-	Students []user.User `json: "students" gorm:"-"`
+	CourseID uint `json:"id" gorm:"AUTO_INCREMENT;unique_index"`
+	Instructor string `json:"instructor"`
+	CourseNumber string `json:"course_number" gorm:"unique_index"`
+	CourseTitle string `json:"course_title"`
+	Description string `json:"description"`
+	Students []user.User `json:"students" gorm:"-"`
 }
 
 func checkTable() {
@@ -41,5 +45,5 @@ func GetCourse(att string, val string) *Course {
 		return nil
 	}
 	course.Students = getStudentRoster(course.CourseID)
-	return &user
+	return &course
 }
