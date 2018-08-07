@@ -26,7 +26,7 @@ func CreateCourse(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-	newCourse.Instructor = containedUser.Username
+	newCourse.Instructor = containedUser
 	course.CreateCourse(&newCourse)
 	w.WriteHeader(http.StatusCreated)
 }

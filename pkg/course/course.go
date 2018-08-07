@@ -3,6 +3,8 @@ package course
 import (
 	"fmt"
 
+	"github.com/jinzhu/gorm"
+
 	"github.com/austinpgraham/chocolate.server/pkg/user"
 	db "github.com/austinpgraham/chocolate.server/pkg/database"
 )
@@ -12,12 +14,12 @@ const COURSE_NUMBER = "course_number"
 const COURSES_TABLE = "courses"
 
 type Course struct {
-	CourseID uint `json:"id" gorm:"AUTO_INCREMENT;unique_index"`
-	Instructor string `json:"instructor"`
+	gorm.Model
+	CourseID uint `json:"id" gorm:"AUTO_INCREMENT;primary_key"`
+	Instructor *user.User `json:"instructor" gorm:"foreignkey:UserID"`
 	CourseNumber string `json:"course_number" gorm:"unique_index"`
 	CourseTitle string `json:"course_title"`
 	Description string `json:"description"`
-	Students []user.User `json:"students" gorm:"-"`
 }
 
 func checkTable() {
@@ -44,6 +46,5 @@ func GetCourse(att string, val string) *Course {
 	if db.First(&course, fmt.Sprintf("%v = ?", att), val).Error != nil {
 		return nil
 	}
-	course.Students = getStudentRoster(course.CourseID)
 	return &course
 }
