@@ -4,6 +4,7 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/austinpgraham/chocolate.server/internal/app/user"
+	"github.com/austinpgraham/chocolate.server/internal/app/course"
 )
 
 func DefineRoutes(router *mux.Router) {
@@ -11,4 +12,5 @@ func DefineRoutes(router *mux.Router) {
 	router.HandleFunc("/auth/login", user.Login).Methods("POST")
 	router.HandleFunc("/users/{username}", user.GetUser).Methods("GET")
 	router.HandleFunc("/auth/logout", user.Logout).Methods("GET")
+	router.HandleFunc("/courses", course.CreateCourse).Methods("POST")
 }

@@ -3,6 +3,8 @@ package user
 import (
 	"fmt"
 
+	"github.com/jinzhu/gorm"
+
 	db "github.com/austinpgraham/chocolate.server/pkg/database"
 )
 
@@ -12,7 +14,8 @@ const USERNAME = "username"
 const USERS_TABLE = "users"
 
 type User struct {
-	UserID uint `json:"id" gorm:"AUTO_INCREMENT;unique_index"`
+	gorm.Model
+	UserID uint `json:"id" gorm:"AUTO_INCREMENT;primary_key"`
 	Username string `json:"username" gorm:"unique_index"`
 	Password string `json:"password,omitempty"`
 	FirstName string `json:"first_name"`

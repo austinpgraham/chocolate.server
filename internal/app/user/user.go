@@ -56,6 +56,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
+	_user.Password = ""
 	addCors(w, r)
 	json.NewEncoder(w).Encode(_user)
 }
