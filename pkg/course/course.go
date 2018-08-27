@@ -15,8 +15,8 @@ const COURSES_TABLE = "courses"
 
 type Course struct {
 	gorm.Model
-	CourseID uint `json:"id" gorm:"AUTO_INCREMENT;primary_key"`
-	Instructor *user.User `json:"instructor" gorm:"foreignkey:UserID"`
+	Instructor user.User `json:"instructor" gorm:"foreignkey:InstructorID"`
+	InstructorID uint	 `json:"instructor_id"`
 	CourseNumber string `json:"course_number" gorm:"unique_index"`
 	CourseTitle string `json:"course_title"`
 	Description string `json:"description"`

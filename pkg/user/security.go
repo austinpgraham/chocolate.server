@@ -10,7 +10,7 @@ import (
 const SESSION_TABLE = "sessions"
 
 type Session struct {
-	AssocUser User `gorm:"foreignkey:UserID;association_foreignkey:UserID"`
+	AssocUser User `gorm:"foreignkey:UserID"`
 	UserID    uint `gorm:"unique"`
 	Cookie    string
 }

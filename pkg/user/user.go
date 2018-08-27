@@ -15,7 +15,6 @@ const USERS_TABLE = "users"
 
 type User struct {
 	gorm.Model
-	UserID uint `json:"id" gorm:"AUTO_INCREMENT;primary_key"`
 	Username string `json:"username" gorm:"unique_index"`
 	Password string `json:"password,omitempty"`
 	FirstName string `json:"first_name"`

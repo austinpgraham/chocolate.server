@@ -36,7 +36,7 @@ func setCookie(_user *user.User, response http.ResponseWriter) error {
 		}
 		http.SetCookie(response, cookie)
 	}
-	err = user.SaveSession(_user.UserID, encoded)
+	err = user.SaveSession(_user.ID, encoded)
 	return err
 }
 
@@ -59,7 +59,7 @@ func ReqAuth(w http.ResponseWriter, r *http.Request) *user.User {
 		return nil
 	}
 	containedUser := user.GetUser(user.USERNAME, value["name"])
-	err = user.CheckSession(containedUser.UserID, cookie.Value)
+	err = user.CheckSession(containedUser.ID, cookie.Value)
 	if err != nil {
 		return nil
 	}

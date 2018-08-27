@@ -96,7 +96,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-	puser.RemoveSession(containedUser.UserID)
+	puser.RemoveSession(containedUser.ID)
 	addCors(w, r)
 	w.WriteHeader(http.StatusOK)
 }
