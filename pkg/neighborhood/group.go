@@ -61,3 +61,21 @@ func GetNeighborhood(att string, val string) *Neighborhood {
 	}
 	return &neighborhood
 }
+
+func GetOwnedNeighborhoods(owner *user.User) []Neighborhood {
+	checkTable()
+	db, _ := db.GetConnection()
+	defer db.Close()
+	var owned []Neighborhood
+	owner.Password = ""
+	if db.Where("admin_id = ?", owner.Model.ID).Find(&owned).Error != nil {
+		return nil
+	}
+	modified := owned[:0]
+	for _, element := range owned {
+		element.Admin = *owner
+		element.Password = ""
+		modified = append(modified, element)
+	}
+	return modified
+}

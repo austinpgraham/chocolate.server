@@ -22,6 +22,7 @@ func CreateNeighborhood(w http.ResponseWriter, r *http.Request) {
 	}
 	var nb neighborhood.Neighborhood
 	_ = json.NewDecoder(r.Body).Decode(&nb)
+	nb.Password, _ = hash(nb.Password)
 	found := neighborhood.GetNeighborhood(neighborhood.NAME, nb.Name)
 	if found != nil {
 		err := er.Error{Code: "NeihborhoodExists.", Message: "Neighborhood exists."}
@@ -54,4 +55,22 @@ func GetNeighborhood(w http.ResponseWriter, r *http.Request) {
 	neigh.Admin = *muser.GetUser("ID", fmt.Sprintf("%d", authUser.Model.ID))
 	neigh.Admin.Password = ""
 	json.NewEncoder(w).Encode(neigh)
+}
+
+func GetOwnedNeighborhoods(w http.ResponseWriter, r *http.Request) {
+	authUser := user.ReqAuth(w, r)
+	if authUser == nil {
+		err := er.Error{Code: "LoginRequired.", Message: "Login Required."}
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(err)
+		return
+	}
+	owned := neighborhood.GetOwnedNeighborhoods(authUser)
+	if owned == nil {
+		err := er.Error{Code: "GetError.", Message: "Get Error."}
+		w.WriteHeader(http.StatusUnprocessableEntity)
+		json.NewEncoder(w).Encode(err)
+		return
+	}
+	json.NewEncoder(w).Encode(owned)
 }
