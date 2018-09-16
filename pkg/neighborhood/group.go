@@ -10,6 +10,7 @@ import (
 	"github.com/austinpgraham/chocolate.server/pkg/user"
 )
 
+const NAME = "name"
 const TOKEN_LENGTH = 16
 const NEIGHBORHOODS_TABLE = "neighborhoods"
 
@@ -36,7 +37,7 @@ func generateToken(n int) string {
 	b := make([]rune, n)
 	for i := range b {
 		b[i] = LETTER_RUNES[rand.Intn(len(LETTER_RUNES))]
-	},
+	}
 	return string(b)
 }
 
