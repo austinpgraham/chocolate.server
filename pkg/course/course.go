@@ -5,8 +5,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 
-	"github.com/austinpgraham/chocolate.server/pkg/user"
 	db "github.com/austinpgraham/chocolate.server/pkg/database"
+	"github.com/austinpgraham/chocolate.server/pkg/user"
 )
 
 const COURSE_ID = "id"
@@ -15,11 +15,11 @@ const COURSES_TABLE = "courses"
 
 type Course struct {
 	gorm.Model
-	Instructor user.User `json:"instructor" gorm:"foreignkey:InstructorID"`
-	InstructorID uint	 `json:"instructor_id"`
-	CourseNumber string `json:"course_number" gorm:"unique_index"`
-	CourseTitle string `json:"course_title"`
-	Description string `json:"description"`
+	Instructor   user.User `json:"instructor" gorm:"foreignkey:InstructorID"`
+	InstructorID uint      `json:"instructor_id"`
+	CourseNumber string    `json:"course_number" gorm:"unique_index"`
+	CourseTitle  string    `json:"course_title"`
+	Description  string    `json:"description"`
 }
 
 func checkTable() {

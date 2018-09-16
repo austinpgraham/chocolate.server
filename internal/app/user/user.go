@@ -28,16 +28,9 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-	found = puser.GetUser("f_by_f", newUser.FByF)
-	if found != nil {
-		err := er.Error{Code: "FByFExsists", Message: "FByF exists."}
-		w.WriteHeader(http.StatusFound)
-		json.NewEncoder(w).Encode(err)
-		return
-	}
 	puser.CreateUser(&newUser)
 	addCors(w, r)
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
