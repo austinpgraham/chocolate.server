@@ -74,3 +74,21 @@ func GetOwnedNeighborhoods(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(owned)
 }
+
+func GetAllNeighborhoods(w http.ResponseWriter, r *http.Request) {
+	authUser := user.ReqAuth(w, r)
+	if authUser == nil {
+		err := er.Error{Code: "LoginRequired.", Message: "Login Required."}
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(err)
+		return
+	}
+	nbs := neighborhood.GetAllNeighborhoods()
+	if nbs == nil {
+		err := er.Error{Code: "GetError.", Message: "Get Error."}
+		w.WriteHeader(http.StatusUnprocessableEntity)
+		json.NewEncoder(w).Encode(err)
+		return
+	}
+	json.NewEncoder(w).Encode(nbs)
+}

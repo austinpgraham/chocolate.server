@@ -79,3 +79,22 @@ func GetOwnedNeighborhoods(owner *user.User) []Neighborhood {
 	}
 	return modified
 }
+
+func GetAllNeighborhoods() []Neighborhood {
+	checkTable()
+	db, _ := db.GetConnection()
+	defer db.Close()
+	var all []Neighborhood
+	if db.Find(&all).Error != nil {
+		return nil
+	}
+	modified := all[:0]
+	for _, element := range all {
+		adminUser := user.GetUser("ID", fmt.Sprintf("%d", element.AdminID))
+		adminUser.Password = ""
+		element.Admin = *adminUser
+		element.Password = ""
+		modified = append(modified, element)
+	}
+	return modified
+}

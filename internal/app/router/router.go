@@ -17,4 +17,5 @@ func DefineRoutes(router *mux.Router) {
 	router.HandleFunc("/doorbell/groups", neighborhood.CreateNeighborhood).Methods("POST")
 	router.HandleFunc("/doorbell/groups/{neighborhood}", neighborhood.GetNeighborhood).Methods("GET")
 	router.HandleFunc("/doorbell/groups", neighborhood.GetOwnedNeighborhoods).Methods("GET")
+	router.HandleFunc("/doorbell/all", neighborhood.GetAllNeighborhoods).Methods("GET")
 }
