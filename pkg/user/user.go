@@ -8,19 +8,17 @@ import (
 	db "github.com/austinpgraham/chocolate.server/pkg/database"
 )
 
-const FBYF = "f_by_f"
 const EMAIL = "email"
 const USERNAME = "username"
 const USERS_TABLE = "users"
 
 type User struct {
 	gorm.Model
-	Username string `json:"username" gorm:"unique_index"`
-	Password string `json:"password,omitempty"`
+	Username  string `json:"username" gorm:"unique_index"`
+	Password  string `json:"password,omitempty"`
 	FirstName string `json:"first_name"`
-	LastName string `json:"last_name"`
-	Email string `json:"email" gorm:"unique"`
-	FByF string `json:"fbyf" gorm:"unique"`
+	LastName  string `json:"last_name"`
+	Email     string `json:"email" gorm:"unique"`
 }
 
 func checkTable() {
